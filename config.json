@@ -1,0 +1,18 @@
+{
+  "login_url": "https://www.secdwp.net/login",
+  "username": "ma2025.lee",
+  "password": "ma202500!",
+  "selectors": {
+    "initial_login_button": ".login-item > ul > li:nth-child(1) > div.login-item-data > a",
+    "adfs_username_field": "#userNameInput",
+    "adfs_password_field": "#passwordInput",
+    "adfs_login_button": "#submitButton",
+    "otp_field": "#otpInput",
+    "otp_button": "#otpSubmitButton"
+  },
+  "retry": {
+    "attempts": 3,
+    "delay_seconds": 5
+  },
+  "target_page_url": "https://www.secdwp.net/"
+}

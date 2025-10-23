@@ -116,6 +116,24 @@ def perform_login(driver, config):
         print(f"Error clicking ADFS login button: {e}")
         return False
 
+    # Wait for the user to approve the push notification and for the page to redirect.
+    target_page_url = config.get('target_page_url')
+    if not target_page_url:
+        print("Error: target_page_url not found in config.json")
+        return False
+
+    print(f"Waiting for redirection to target page: {target_page_url}")
+    print("Please approve the login on your mobile device.")
+    try:
+        WebDriverWait(driver, 60).until(EC.url_to_be(target_page_url))
+        print("Successfully redirected to target page.")
+    except Exception as e:
+        print(f"Error waiting for redirection: {e}")
+        print(f"Current URL: {driver.current_url}")
+        driver.save_screenshot("redirection_error.png")
+        print("Screenshot saved to redirection_error.png")
+        return False
+
     print("Login sequence initiated.")
     return True
 
