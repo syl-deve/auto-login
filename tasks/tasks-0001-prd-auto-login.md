@@ -13,7 +13,7 @@
 
 ## Tasks
 
-- [ ] 1.0 프로젝트 환경 설정 및 기본 구조 생성
+- [x] 1.0 프로젝트 환경 설정 및 기본 구조 생성
   - [x] 1.1 `uv`를 사용하여 Python 가상 환경 생성 (`uv venv`)
   - [x] 1.2 `requirements.txt` 파일 생성 및 `selenium` 라이브러리 추가
   - [x] 1.3 `uv pip install -r requirements.txt`를 실행하여 라이브러리 설치
@@ -22,10 +22,10 @@
   - [x] 1.6 `main.py` 기본 파일 생성 및 설정 파일 로드 로직 추가
 
 - [ ] 2.0 웹 브라우저 제어 및 기본 로그인 구현
-  - [ ] 2.1 `main.py`에 Selenium WebDriver 초기화 로직 추가
-  - [ ] 2.2 `config.json`에서 로그인 URL을 읽어 해당 페이지로 이동하는 기능 구현
-  - [ ] 2.3 `config.json`에 아이디/비밀번호 필드 및 제출 버튼의 CSS selector 추가
-  - [ ] 2.4 `config.json`의 정보를 사용하여 웹페이지에 아이디/비밀번호를 입력하고 제출하는 기능 구현
+  - [x] 2.1 `main.py`에 Selenium WebDriver 초기화 로직 추가
+  - [x] 2.2 `config.json`에서 로그인 URL을 읽어 해당 페이지로 이동하는 기능 구현
+  - [x] 2.3 `config.json`에 아이디/비밀번호 필드 및 제출 버튼의 CSS selector 추가
+  - [x] 2.4 `config.json`의 정보를 사용하여 웹페이지에 아이디/비밀번호를 입력하고 제출하는 기능 구현
 
 - [ ] 3.0 OTP 인증 처리 기능 구현
   - [ ] 3.1 `config.json`에 OTP 입력 필드 및 제출 버튼의 CSS selector 추가
