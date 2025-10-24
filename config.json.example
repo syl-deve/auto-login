@@ -1,0 +1,19 @@
+{
+  "login_url": "https://www.secdwp.net/login",
+  "username": "YOUR_USERNAME",
+  "password": "YOUR_PASSWORD",
+  "selectors": {
+    "initial_login_button": ".login-item > ul > li:nth-child(1) > div.login-item-data > a",
+    "adfs_username_field": "#userNameInput",
+    "adfs_password_field": "#passwordInput",
+    "adfs_login_button": "#submitButton",
+    "post_login_target_selector": "#outer-wrap > div > div.main-wrap > ul > li.main-item.on > div.register",
+    "checkbox_1_selector": "#modals-container > div > div > div.v--modal-box.v--modal > div > div > div.modal-body > div.pop_Agree_box > div > div > b > input[type=checkbox]",
+    "checkbox_2_selector": "#modals-container > div > div > div.v--modal-box.v--modal > div > div > div.modal-body > div.inputArea > div.selectedResult > b > input[type=checkbox]"
+  },
+  "retry": {
+    "attempts": 3,
+    "delay_seconds": 5
+  },
+  "target_page_url": "https://www.secdwp.net/"
+}
