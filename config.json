@@ -7,8 +7,9 @@
     "adfs_username_field": "#userNameInput",
     "adfs_password_field": "#passwordInput",
     "adfs_login_button": "#submitButton",
-    "otp_field": "#otpInput",
-    "otp_button": "#otpSubmitButton"
+    "post_login_target_selector": "#outer-wrap > div > div.main-wrap > ul > li.main-item.on > div.register",
+    "checkbox_1_selector": "#modals-container > div > div > div.v--modal-box.v--modal > div > div > div.modal-body > div.pop_Agree_box > div > div > b > input[type=checkbox]",
+    "checkbox_2_selector": "#modals-container > div > div > div.v--modal-box.v--modal > div > div > div.modal-body > div.inputArea > div.selectedResult > b > input[type=checkbox]"
   },
   "retry": {
     "attempts": 3,

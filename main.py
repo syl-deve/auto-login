@@ -6,6 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import time # Ensure time is imported at the top level
 
 def load_config():
     """
@@ -47,7 +48,6 @@ def perform_login(driver, config):
     # Wait for the page to be fully loaded
     print("Waiting for page to load completely...")
     WebDriverWait(driver, 10).until(lambda d: d.execute_script("return document.readyState") == "complete")
-    import time
     time.sleep(2) # Give SPA more time to render
 
     # Click the initial login button
@@ -127,11 +127,66 @@ def perform_login(driver, config):
     try:
         WebDriverWait(driver, 60).until(EC.url_to_be(target_page_url))
         print("Successfully redirected to target page.")
+
+        # Add a delay to ensure the page is fully rendered
+        time.sleep(5)
+        
+        # Now, wait for the post-login target element and click it
+        post_login_target_selector = config['selectors'].get('post_login_target_selector')
+        if not post_login_target_selector:
+            print("Error: post_login_target_selector not found in config.json")
+            driver.save_screenshot("post_login_target_selector_not_found.png")
+            print("Screenshot saved to post_login_target_selector_not_found.png")
+            return False
+
+        print(f"Waiting for post-login target element: {post_login_target_selector}")
+        target_element = WebDriverWait(driver, 20).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, post_login_target_selector))
+        )
+        time.sleep(2) # Additional sleep before clicking
+        print(f"Post-login target element is displayed: {target_element.is_displayed()}")
+        print(f"Post-login target element is enabled: {target_element.is_enabled()}")
+        print(f"Attempting JavaScript click for post-login target element: {post_login_target_selector}")
+        driver.execute_script("arguments[0].click();", target_element)
+        print("Post-login action completed.")
+
+        # Now, click the first checkbox
+        checkbox_1_selector = config['selectors'].get('checkbox_1_selector')
+        if not checkbox_1_selector:
+            print("Error: checkbox_1_selector not found in config.json")
+            driver.save_screenshot("checkbox_1_selector_not_found.png")
+            print("Screenshot saved to checkbox_1_selector_not_found.png")
+            return False
+
+        print(f"Waiting for checkbox 1: {checkbox_1_selector}")
+        checkbox_1_element = WebDriverWait(driver, 20).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, checkbox_1_selector))
+        )
+        print(f"Attempting JavaScript click for checkbox 1: {checkbox_1_selector}")
+        driver.execute_script("arguments[0].click();", checkbox_1_element)
+        print("Checkbox 1 clicked.")
+
+        # Now, click the second checkbox
+        checkbox_2_selector = config['selectors'].get('checkbox_2_selector')
+        if not checkbox_2_selector:
+            print("Error: checkbox_2_selector not found in config.json")
+            driver.save_screenshot("checkbox_2_selector_not_found.png")
+            print("Screenshot saved to checkbox_2_selector_not_found.png")
+            return False
+
+        print(f"Waiting for checkbox 2: {checkbox_2_selector}")
+        checkbox_2_element = WebDriverWait(driver, 20).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, checkbox_2_selector))
+        )
+        print(f"Attempting JavaScript click for checkbox 2: {checkbox_2_selector}")
+        driver.execute_script("arguments[0].click();", checkbox_2_element)
+        print("Checkbox 2 clicked.")
+
     except Exception as e:
-        print(f"Error waiting for redirection: {e}")
+        print(f"Error during post-login actions: {e}")
         print(f"Current URL: {driver.current_url}")
-        driver.save_screenshot("redirection_error.png")
-        print("Screenshot saved to redirection_error.png")
+        driver.save_screenshot("post_login_action_error.png")
+        print("Screenshot saved to post_login_action_error.png")
         return False
 
     print("Login sequence initiated.")
@@ -149,8 +204,6 @@ def main():
         print("WebDriver initialized.")
         if perform_login(driver, config):
             print("Login process completed. Check browser for status.")
-            # Keep the browser open for a moment to verify
-            import time
             time.sleep(10) # Increased sleep time to 10 seconds to verify login
         else:
             print("Login process failed.")
