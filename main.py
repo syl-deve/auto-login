@@ -6,7 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time # Ensure time is imported at the top level
+import time
 
 def load_config():
     """
@@ -42,22 +42,22 @@ def perform_login(driver, config):
         print("Error: login_url not found in config.json")
         return False
 
+    # Step 1: Navigate to the initial login page
     print(f"Navigating to initial login page: {login_url}")
     driver.get(login_url)
 
     # Wait for the page to be fully loaded
     print("Waiting for page to load completely...")
     WebDriverWait(driver, 10).until(lambda d: d.execute_script("return document.readyState") == "complete")
-    time.sleep(2) # Give SPA more time to render
+    time.sleep(2) # Give SPA more time to render for Single Page Applications
 
-    # Click the initial login button
+    # Step 2: Click the initial login button
     initial_login_button_selector = config['selectors'].get('initial_login_button')
     if not initial_login_button_selector:
         print("Error: initial_login_button selector not found in config.json")
         return False
 
     print(f"Clicking initial login button: {initial_login_button_selector}")
-    initial_button = None
     try:
         # Wait for the element to be present in DOM
         initial_button = WebDriverWait(driver, 10).until(
@@ -78,7 +78,7 @@ def perform_login(driver, config):
         print("Screenshot saved to initial_button_click_error.png")
         return False
 
-    # Wait for ADFS username field to appear (indicating ADFS page loaded)
+    # Step 3: Handle ADFS login (enter credentials and click login button)
     adfs_username_field_selector = config['selectors'].get('adfs_username_field')
     if not adfs_username_field_selector:
         print("Error: adfs_username_field selector not found in config.json")
@@ -116,7 +116,7 @@ def perform_login(driver, config):
         print(f"Error clicking ADFS login button: {e}")
         return False
 
-    # Wait for the user to approve the push notification and for the page to redirect.
+    # Step 4: Wait for mobile push notification approval and redirection to target page
     target_page_url = config.get('target_page_url')
     if not target_page_url:
         print("Error: target_page_url not found in config.json")
@@ -131,7 +131,7 @@ def perform_login(driver, config):
         # Add a delay to ensure the page is fully rendered
         time.sleep(5)
         
-        # Now, wait for the post-login target element and click it
+        # Step 5: Wait for and click the post-login target element (e.g., "RBS 3.0" button)
         post_login_target_selector = config['selectors'].get('post_login_target_selector')
         if not post_login_target_selector:
             print("Error: post_login_target_selector not found in config.json")
@@ -144,13 +144,11 @@ def perform_login(driver, config):
             EC.presence_of_element_located((By.CSS_SELECTOR, post_login_target_selector))
         )
         time.sleep(2) # Additional sleep before clicking
-        print(f"Post-login target element is displayed: {target_element.is_displayed()}")
-        print(f"Post-login target element is enabled: {target_element.is_enabled()}")
         print(f"Attempting JavaScript click for post-login target element: {post_login_target_selector}")
         driver.execute_script("arguments[0].click();", target_element)
         print("Post-login action completed.")
 
-        # Now, click the first checkbox
+        # Step 6: Click the first checkbox
         checkbox_1_selector = config['selectors'].get('checkbox_1_selector')
         if not checkbox_1_selector:
             print("Error: checkbox_1_selector not found in config.json")
@@ -166,7 +164,7 @@ def perform_login(driver, config):
         driver.execute_script("arguments[0].click();", checkbox_1_element)
         print("Checkbox 1 clicked.")
 
-        # Now, click the second checkbox
+        # Step 7: Click the second checkbox
         checkbox_2_selector = config['selectors'].get('checkbox_2_selector')
         if not checkbox_2_selector:
             print("Error: checkbox_2_selector not found in config.json")
@@ -189,6 +187,7 @@ def perform_login(driver, config):
         print("Screenshot saved to post_login_action_error.png")
         return False
 
+    # Step 8: Login sequence successfully initiated
     print("Login sequence initiated.")
     return True
 
